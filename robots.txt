@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ycm-you-can-manage.github.io/beacon-support/sitemap.xml
