@@ -164,6 +164,10 @@ nav .nav-contact {
   border-radius: 999px;
 }
 
+nav .nav-contact[aria-current="page"] {
+  color: var(--white);
+}
+
 nav .nav-contact:hover {
   color: var(--white);
   background: var(--blue-deep);
