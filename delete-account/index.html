@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Securely verify your identity and permanently delete your Beacon account and associated personal data."
+    >
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; connect-src https://sfjjclirtcvujkfwqshb.supabase.co; img-src 'self' data:; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+    >
+    <meta name="referrer" content="no-referrer">
+    <meta name="theme-color" content="#02369c">
+    <link
+      rel="canonical"
+      href="https://ycm-you-can-manage.github.io/beacon-support/delete-account/"
+    >
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="stylesheet" href="../styles.css">
+    <title>Delete My Account — Beacon</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="../" aria-label="Beacon Support home">
+          <img src="../assets/blue_beacon.svg" alt="Beacon">
+          <span>Support</span>
+        </a>
+
+        <nav aria-label="Main navigation">
+          <a href="../">Support</a>
+          <a href="../privacy/">Privacy</a>
+          <a href="../terms/">Terms</a>
+          <a href="../community-guidelines/">Safety</a>
+          <a class="nav-contact" aria-current="page" href="./"
+            >Delete account</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="policy-hero delete-hero">
+        <div class="shell policy-hero-grid">
+          <div>
+            <p class="eyebrow">Account privacy</p>
+            <h1>Delete your Beacon account.</h1>
+            <p class="hero-lede">
+              Verify the account with its email and current password, then
+              permanently delete the account and associated personal data.
+            </p>
+          </div>
+          <div class="policy-meta">
+            <span>Secure verification</span>
+            <strong>Email, password, and signed session</strong>
+            <span>Alternative</span>
+            <strong>Profile → Delete Account in the app</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section delete-section" aria-labelledby="delete-form-title">
+        <div class="shell delete-layout">
+          <aside class="delete-guidance" aria-labelledby="before-heading">
+            <p class="eyebrow">Before you continue</p>
+            <h2 id="before-heading">This cannot be undone.</h2>
+            <p>
+              Beacon authenticates directly with Supabase. This website never
+              stores your password and cannot choose another user's account.
+            </p>
+            <ol class="verification-steps">
+              <li>
+                <strong>Authenticate.</strong>
+                Your email and password establish a signed session.
+              </li>
+              <li>
+                <strong>Re-verify.</strong>
+                The deletion service checks the password again for that same
+                signed-in user.
+              </li>
+              <li>
+                <strong>Delete.</strong>
+                Only the authenticated user ID and its associated data and
+                files are removed.
+              </li>
+            </ol>
+            <div class="data-note">
+              <strong>What is removed</strong>
+              <p>
+                Your authentication account, profile, memberships, private
+                account data, and user-owned files are deleted. Limited
+                de-identified safety or legal records may be retained only when
+                required to protect users or comply with law.
+              </p>
+            </div>
+          </aside>
+
+          <div class="delete-form-card">
+            <div id="delete-form-intro">
+              <p class="panel-index">Identity verification</p>
+              <h2 id="delete-form-title">Confirm the account owner.</h2>
+              <p>
+                Use the credentials for the exact Beacon account you want to
+                delete.
+              </p>
+            </div>
+
+            <div id="delete-form-loading" class="form-security-note" role="status">
+              Loading the secure verification form…
+            </div>
+
+            <noscript>
+              <p class="form-status">
+                JavaScript is required for secure account verification. Enable
+                JavaScript or use Profile → Delete Account in the Beacon app.
+              </p>
+            </noscript>
+
+            <form id="delete-account-form" novalidate hidden>
+              <div class="form-field">
+                <label for="account-email">Account email</label>
+                <input
+                  id="account-email"
+                  name="email"
+                  type="email"
+                  inputmode="email"
+                  autocomplete="email"
+                  maxlength="320"
+                  required
+                >
+              </div>
+
+              <div class="form-field">
+                <label for="account-password">Current password</label>
+                <input
+                  id="account-password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  minlength="6"
+                  maxlength="256"
+                  required
+                >
+              </div>
+
+              <div class="form-field">
+                <label for="delete-phrase"
+                  >Type <strong>DELETE</strong> to confirm</label
+                >
+                <input
+                  id="delete-phrase"
+                  name="confirmation"
+                  type="text"
+                  autocomplete="off"
+                  autocapitalize="characters"
+                  spellcheck="false"
+                  maxlength="6"
+                  pattern="DELETE"
+                  required
+                >
+              </div>
+
+              <label class="confirmation-check">
+                <input
+                  id="permanent-confirmation"
+                  name="permanent"
+                  type="checkbox"
+                  required
+                >
+                <span>
+                  I understand that this permanently deletes my Beacon account
+                  and cannot be reversed.
+                </span>
+              </label>
+
+              <p class="form-security-note">
+                For your security, a failed verification does not reveal
+                whether an email address has a Beacon account.
+              </p>
+
+              <div
+                id="delete-status"
+                class="form-status"
+                role="status"
+                aria-live="polite"
+                hidden
+              ></div>
+
+              <button id="delete-account-button" class="delete-button" type="submit">
+                Verify and permanently delete
+              </button>
+            </form>
+
+            <div
+              id="delete-success"
+              class="delete-success"
+              role="status"
+              tabindex="-1"
+              hidden
+            >
+              <span class="success-mark" aria-hidden="true">✓</span>
+              <h2>Account deletion completed.</h2>
+              <p>
+                The authenticated Beacon account has been permanently deleted.
+                You can close this page.
+              </p>
+              <a class="button button-secondary" href="../"
+                >Return to Beacon Support</a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-tint">
+        <div class="shell deletion-help">
+          <div>
+            <p class="eyebrow">Need assistance?</p>
+            <h2>We can help you regain access first.</h2>
+          </div>
+          <p>
+            If you cannot verify the account because you forgot the password,
+            reset it in the Beacon app. For another deletion problem, email
+            <a href="mailto:contactbeacon.kr@gmail.com"
+              >contactbeacon.kr@gmail.com</a
+            >
+            from the address connected to the account. Never send your
+            password by email.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <div>
+          <img src="../assets/blue_beacon.svg" alt="Beacon">
+          <p>A community app for people living in Korea.</p>
+        </div>
+        <div class="footer-links">
+          <a href="../">Support</a>
+          <a href="../privacy/">Privacy Policy</a>
+          <a href="../terms/">Terms of Use</a>
+          <a href="../community-guidelines/">Community Guidelines</a>
+          <a href="./">Delete Account</a>
+          <a href="mailto:contactbeacon.kr@gmail.com">Contact</a>
+        </div>
+        <p class="copyright">
+          © <span data-current-year>2026</span> Beacon
+        </p>
+      </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="delete-account.js"></script>
+  </body>
+</html>
