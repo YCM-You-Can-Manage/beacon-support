@@ -26,14 +26,21 @@ const clearStatus = () => {
 };
 
 const requestJson = async (url, options) => {
-  const response = await fetch(url, {
-    ...options,
-    cache: "no-store",
-    credentials: "omit",
-    referrerPolicy: "no-referrer",
-  });
-  const body = await response.json().catch(() => ({}));
-  return { response, body };
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 20000);
+  try {
+    const response = await fetch(url, {
+      ...options,
+      cache: "no-store",
+      credentials: "omit",
+      referrerPolicy: "no-referrer",
+      signal: controller.signal,
+    });
+    const body = await response.json().catch(() => ({}));
+    return { response, body };
+  } finally {
+    window.clearTimeout(timeout);
+  }
 };
 
 form.addEventListener("submit", async (event) => {
@@ -59,6 +66,7 @@ form.addEventListener("submit", async (event) => {
   submitButton.disabled = true;
   submitButton.textContent = "Verifying account…";
   let accessToken = "";
+  let deletionRequested = false;
 
   try {
     const { response: authResponse, body: authBody } = await requestJson(
@@ -86,6 +94,7 @@ form.addEventListener("submit", async (event) => {
     }
 
     submitButton.textContent = "Deleting account and data…";
+    deletionRequested = true;
 
     const { response: deleteResponse, body: deleteBody } = await requestJson(
       deletionEndpoint,
@@ -117,9 +126,13 @@ form.addEventListener("submit", async (event) => {
       showStatus(
         "We could not verify those account credentials. Check the email and current password, then try again.",
       );
+    } else if (deletionRequested) {
+      showStatus(
+        "We could not confirm that account deletion finished. Some files may already have been removed. Please try again or contact Beacon Support.",
+      );
     } else {
       showStatus(
-        "The account could not be deleted right now. No deletion was completed. Please try again or contact Beacon Support.",
+        "We could not reach the account verification service. Please try again.",
       );
     }
   } finally {
